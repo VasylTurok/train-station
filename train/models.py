@@ -62,12 +62,12 @@ class Route(models.Model):
     source = models.ForeignKey(
         Station,
         on_delete=models.CASCADE,
-        related_name="routes"
+        related_name="source_routes"
     )
     destination = models.ForeignKey(
         Station,
         on_delete=models.CASCADE,
-        related_name="routes"
+        related_name="destination_routes"
     )
     distance = models.IntegerField()#maybe should do it sach @property
 
@@ -130,5 +130,5 @@ class Ticket(models.Model):
         )
 
     class Meta:
-        unique_together = ("trip", "row", "seat")
+        unique_together = ("trip", "cargo", "seat")
         ordering = ["cargo", "seat"]
