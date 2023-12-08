@@ -69,3 +69,8 @@ class RouteViewSet(viewsets.ModelViewSet):
             return RouteListOrRetrieveSerializers
 
         return self.serializer_class
+
+
+class StationViewSet(viewsets.ModelViewSet):
+    queryset = Station.objects.all()
+    serializer_class = StationSerializer
