@@ -47,6 +47,7 @@ class TrainSerializer(serializers.ModelSerializer):
             "cargo_num",
             "places_in_cargo",
             "train_type",
+            "capacity"
         )
 
 
@@ -59,6 +60,11 @@ class RouteSerializer(serializers.ModelSerializer):
             "destination",
             "distance"
         )
+
+
+class RouteListOrRetrieveSerializers(RouteSerializer):
+    source = serializers.CharField(source="source.name", read_only=True)
+    destination = serializers.CharField(source="destination.name", read_only=True)
 
 
 class TripSerializer(serializers.ModelSerializer):
@@ -114,7 +120,7 @@ class OrderListSerializer(OrderSerializer):
     tickets = TicketListSerializer(many=True, read_only=True)
 
 
-class CrewListSerializer(CrewSerializer):
+class CrewListOrRetrieveSerializer(CrewSerializer):
     trips = TripSerializer(many=True, read_only=True)
 
 
