@@ -22,10 +22,15 @@ from train.models import (
 
 from train.serializers import (
     CrewSerializer,
-
+    TrainTypeSerializer,
 )
 
 
 class CrewViewSet(viewsets.ModelViewSet):
     queryset = Crew.objects.prefetch_related("trips")
     serializer_class = CrewSerializer
+
+
+class TrainTypeViewSet(viewsets.ModelViewSet):
+    queryset = TrainType.objects.all()
+    serializer_class = TrainTypeSerializer
