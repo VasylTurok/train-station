@@ -46,7 +46,7 @@ class Station(models.Model):
 
 class Train(models.Model):
     name = models.CharField(max_length=63)
-    cargo_num = models.ImageField()
+    cargo_num = models.IntegerField()
     places_in_cargo = models.IntegerField()
     train_type = models.ForeignKey(
         TrainType,
@@ -74,6 +74,9 @@ class Route(models.Model):
     def __str__(self):
         return f"{self.source.name}-{self.destination.name}"
 
+    class Meta:
+        unique_together = ("source", "destination")
+
 
 class Trip(models.Model):
     route = models.ForeignKey(
@@ -95,7 +98,7 @@ class Trip(models.Model):
     )
 
     def __str__(self):
-        return f"{self.departure_time}-{self.arrival_time}"
+        return f"{self.route} {self.departure_time}-{self.arrival_time}"
 
 
 class Ticket(models.Model):
