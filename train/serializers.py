@@ -116,3 +116,12 @@ class OrderListSerializer(OrderSerializer):
 
 class CrewListSerializer(CrewSerializer):
     trips = TripSerializer(many=True, read_only=True)
+
+
+class TrainTypeListOrRetrieveSerializer(TrainTypeSerializer):
+    class Meta(TrainTypeSerializer.Meta):
+        fields = (
+            "id",
+            "name",
+            "trains"
+        )
