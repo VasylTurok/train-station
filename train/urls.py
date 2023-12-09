@@ -17,7 +17,7 @@ router.register("train-types", TrainTypeViewSet)
 router.register("routes", RouteViewSet)
 router.register("stations", StationViewSet)
 router.register("trains", TrainViewSet)
-router.register("trip", TripViewSet)
+router.register("trips", TripViewSet)
 router.register("tickets", TicketViewSet)
 router.register("orders", OrderViewSet)
 

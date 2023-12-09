@@ -80,6 +80,7 @@ class Route(models.Model):
 
     class Meta:
         unique_together = ("source", "destination")
+        ordering = ["distance",]
 
 
 class Trip(models.Model):
