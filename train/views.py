@@ -34,7 +34,8 @@ from train.serializers import (
     CrewListOrRetrieveSerializer,
     TrainTypeListOrRetrieveSerializer,
     RouteListOrRetrieveSerializers,
-    TrainListOrRetrieveSerializers
+    TrainListOrRetrieveSerializers,
+    TripListOrRetrieveSerializer
 )
 
 
@@ -85,3 +86,22 @@ class TrainViewSet(viewsets.ModelViewSet):
             return TrainListOrRetrieveSerializers
 
         return self.serializer_class
+
+
+class TripViewSet(viewsets.ModelViewSet):
+    queryset = Trip.objects.select_related(
+        "route",
+        "train"
+    ).prefetch_related("crews")
+    serializer_class = TripSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list" or self.action == "retrieve":
+            return TripListOrRetrieveSerializer
+
+        return self.serializer_class
+
+
+class TicketViewSet(viewsets.ModelViewSet):
+    queryset = Ticket.objects.all()
+    serializer_class = TicketSerializer

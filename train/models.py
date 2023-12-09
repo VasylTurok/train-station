@@ -73,7 +73,7 @@ class Route(models.Model):
         on_delete=models.CASCADE,
         related_name="destination_routes"
     )
-    distance = models.IntegerField()#maybe should do it sach @property
+    distance = models.IntegerField()
 
     def __str__(self):
         return f"{self.source.name}-{self.destination.name}"

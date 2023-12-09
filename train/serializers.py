@@ -52,7 +52,7 @@ class TrainSerializer(serializers.ModelSerializer):
 
 
 class TrainListOrRetrieveSerializers(TrainSerializer):
-    train_type = serializers.CharField(source="train_type.name", read_only=True)
+        train_type = serializers.CharField(source="train_type.name", read_only=True)
 
 
 class RouteSerializer(serializers.ModelSerializer):
@@ -84,6 +84,17 @@ class TripSerializer(serializers.ModelSerializer):
         )
 
 
+class CrewForTripSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Crew
+        fields = ("full_name",)
+
+
+class TripListOrRetrieveSerializer(TripSerializer):
+    train = serializers.CharField(source="train.name", read_only=True)
+    crews = CrewForTripSerializer(many=True, read_only=True)
+
+
 class TicketSerializer(serializers.ModelSerializer):
     def validate(self, attrs):
         data = super(TicketSerializer, self).validate(attrs=attrs)
@@ -97,11 +108,11 @@ class TicketSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Ticket
-        fields = ("id", "row", "seat", "movie_session")
+        fields = ("id", "cargo", "seat", "trip")
 
 
 class TicketListSerializer(TicketSerializer):
-    movie_session = TripSerializer(many=False, read_only=True)
+    movie_session = TripListOrRetrieveSerializer(many=False, read_only=True)
 
 
 class OrderSerializer(serializers.ModelSerializer):
