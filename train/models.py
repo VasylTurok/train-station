@@ -29,7 +29,7 @@ class Order(models.Model):
     )
 
     def __str__(self):
-        return str(self.created_at)
+        return str(self.user.email)
 
     class Meta:
         ordering = ["-created_at"]

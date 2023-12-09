@@ -112,7 +112,7 @@ class TicketSerializer(serializers.ModelSerializer):
 
 
 class TicketListSerializer(TicketSerializer):
-    movie_session = TripListOrRetrieveSerializer(many=False, read_only=True)
+    trip = TripListOrRetrieveSerializer(many=False, read_only=True)
 
 
 class OrderSerializer(serializers.ModelSerializer):

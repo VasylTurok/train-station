@@ -39,9 +39,15 @@ from train.serializers import (
 )
 
 
+class Pagination(PageNumberPagination):
+    page_size = 10
+    max_page_size = 100
+
+
 class CrewViewSet(viewsets.ModelViewSet):
     queryset = Crew.objects.prefetch_related("trips")
     serializer_class = CrewSerializer
+    pagination_class = Pagination
 
     def get_serializer_class(self):
         if self.action == "list" or self.action == "retrieve":
@@ -105,3 +111,34 @@ class TripViewSet(viewsets.ModelViewSet):
 class TicketViewSet(viewsets.ModelViewSet):
     queryset = Ticket.objects.all()
     serializer_class = TicketSerializer
+
+    def get_serializer_class(self):
+        if self.action == "list" or self.action == "retrieve":
+            return TicketListSerializer
+
+        return self.serializer_class
+
+
+class OrderViewSet(
+    mixins.ListModelMixin,
+    mixins.CreateModelMixin,
+    GenericViewSet,
+):
+    queryset = Order.objects.prefetch_related(
+        "tickets__movie_session__movie", "tickets__movie_session__cinema_hall"
+    )
+    serializer_class = OrderSerializer
+    pagination_class = Pagination
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        return Order.objects.filter(user=self.request.user)
+
+    def get_serializer_class(self):
+        if self.action == "list":
+            return OrderListSerializer
+
+        return OrderSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
