@@ -7,7 +7,11 @@ from rest_framework import status
 
 from train.models import (
     Trip,
-    Crew
+    Crew,
+    Route,
+    Station,
+    TrainType,
+    Train
 )
 
 from train.serializers import (
@@ -25,6 +29,17 @@ def sample_crew(**params):
     defaults.update(params)
 
     return Crew.objects.create(**defaults)
+
+
+def sample_station(**params):
+    defaults = {
+        "name": "st1",
+        "latitude": 1.0,
+        "longitude": 1.0
+    }
+    defaults.update(params)
+
+    return Station.objects.create(**defaults)
 
 
 def detail_crew_url(crew_id):
@@ -57,9 +72,11 @@ class AuthenticatedMovieApiTests(TestCase):
 
         crews = Crew.objects.order_by("id")
         serializer = CrewListOrRetrieveSerializer(crews, many=True)
-
+        print("ssssssssssssssssssssssssssssssssss")
+        print(res)
+        print(res.data["results"])
         self.assertEqual(res.status_code, status.HTTP_200_OK)
-        self.assertEqual(res.data, serializer.data)
+        self.assertEqual(res.data["results"], serializer.data)
 
     def test_filter_crews_by_first_name(self):
         crew1 = sample_crew(first_name="some name")
@@ -72,16 +89,32 @@ class AuthenticatedMovieApiTests(TestCase):
         serializer2 = CrewListOrRetrieveSerializer(crew2)
         serializer3 = CrewListOrRetrieveSerializer(crew3)
 
-        self.assertIn(serializer1.data, res.data)
-        self.assertIn(serializer2.data, res.data)
-        self.assertNotIn(serializer3.data, res.data)
+        self.assertIn(serializer1.data, res.data["results"])
+        self.assertIn(serializer2.data, res.data["results"])
+        self.assertNotIn(serializer3.data, res.data["results"])
 
     def test_retrieve_crew_detail(self):
         crew = sample_crew()
-        crew.trips.add(Trip.objects.create(
+        route = Route.objects.create(
+            source=sample_station(),
+            destination=sample_station(name="st2"),
+            distance=1
+        )
+        train = Train.objects.create(
+            name="tr1",
+            cargo_num=12,
+            places_in_cargo=10,
+            train_type=TrainType.objects.create(
+                name="type1"
+            )
+        )
+        trip1 = Trip.objects.create(
             departure_time="2023-12-08T21:54:22+02:00",
-            arrival_time="2023-12-09T21:54:22+02:00"
-        ))
+            arrival_time="2023-12-09T21:54:22+02:00",
+            route=route,
+            train=train
+        )
+        crew.trips.add(trip1)
 
         url = detail_crew_url(crew.id)
         res = self.client.get(url)
@@ -120,18 +153,35 @@ class AdminCrewApiTests(TestCase):
             self.assertEqual(payload[key], getattr(crew, key))
 
     def test_create_crew_with_trips(self):
+        route = Route.objects.create(
+            source=sample_station(),
+            destination=sample_station(name="st2"),
+            distance=1
+        )
+        train = Train.objects.create(
+            name="tr1",
+            cargo_num=12,
+            places_in_cargo=10,
+            train_type=TrainType.objects.create(
+                name="type1"
+            )
+        )
         trip1 = Trip.objects.create(
             departure_time="2023-12-08T21:54:22+02:00",
-            arrival_time="2023-12-09T21:54:22+02:00"
+            arrival_time="2023-12-09T21:54:22+02:00",
+            route=route,
+            train=train
         )
         trip2 = Trip.objects.create(
             departure_time="2023-11-08T21:54:22+02:00",
-            arrival_time="2023-11-09T21:54:22+02:00"
+            arrival_time="2023-11-09T21:54:22+02:00",
+            route=route,
+            train=train
         )
         payload = {
             "first_name": "first_name",
             "last_name": "last_name",
-            "trips": [trip1, trip2]
+            "trips": [trip1.id, trip2.id]
         }
         res = self.client.post(CREW_URL, payload)
         self.assertEqual(res.status_code, status.HTTP_201_CREATED)
