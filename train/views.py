@@ -69,7 +69,7 @@ class CrewViewSet(viewsets.ModelViewSet):
             OpenApiParameter(
                 "first_name",
                 type=str,
-                description="Filter by first_name. Example: ?full_name=qwe"
+                description="Filter by first_name. Example: ?first_name=qwe"
             )
         ]
     )
