@@ -55,7 +55,7 @@ class UnauthenticatedCrewApiTests(TestCase):
         self.assertEqual(res.status_code, status.HTTP_401_UNAUTHORIZED)
 
 
-class AuthenticatedMovieApiTests(TestCase):
+class AuthenticatedCrewApiTests(TestCase):
     def setUp(self):
         self.client = APIClient()
         self.user = get_user_model().objects.create_user(
@@ -72,9 +72,6 @@ class AuthenticatedMovieApiTests(TestCase):
 
         crews = Crew.objects.order_by("id")
         serializer = CrewListOrRetrieveSerializer(crews, many=True)
-        print("ssssssssssssssssssssssssssssssssss")
-        print(res)
-        print(res.data["results"])
         self.assertEqual(res.status_code, status.HTTP_200_OK)
         self.assertEqual(res.data["results"], serializer.data)
 
