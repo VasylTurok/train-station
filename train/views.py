@@ -254,12 +254,14 @@ class TripViewSet(viewsets.ModelViewSet):
             OpenApiParameter(
                 "departure_time",
                 type=str,
-                description="Filter by departure_time. Example: ?arrival_time=2000-12-1"
+                description="Filter by departure_time. "
+                            "Example: ?arrival_time=2000-12-1"
             ),
             OpenApiParameter(
                 "arrival_time",
                 type=str,
-                description="Filter by arrival_time. Example: ?arrival_time=2000-12-1"
+                description="Filter by arrival_time. "
+                            "Example: ?arrival_time=2000-12-1"
             )
         ]
     )
@@ -290,17 +292,17 @@ class TicketViewSet(viewsets.ModelViewSet):
         queryset = self.queryset
 
         if trips:
-            genres_ids = self._params_to_ints(trips)
-            queryset = queryset.filter(trip__id__in=genres_ids)
+            trips_ids = self._params_to_ints(trips)
+            queryset = queryset.filter(trip__id__in=trips_ids)
 
         return queryset.distinct()
 
     @extend_schema(
         parameters=[
             OpenApiParameter(
-                "genres",
+                "trips",
                 type={"type": "list", "items": {"type": "number"}},
-                description="Filter by genres id. Example: ?trips=1,3"
+                description="Filter by trips id. Example: ?trips=1,3"
             )
         ]
     )

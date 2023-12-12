@@ -52,7 +52,10 @@ class TrainSerializer(serializers.ModelSerializer):
 
 
 class TrainListOrRetrieveSerializers(TrainSerializer):
-    train_type = serializers.CharField(source="train_type.name", read_only=True)
+    train_type = serializers.CharField(
+        source="train_type.name",
+        read_only=True
+    )
 
 
 class RouteSerializer(serializers.ModelSerializer):
@@ -68,7 +71,10 @@ class RouteSerializer(serializers.ModelSerializer):
 
 class RouteListOrRetrieveSerializers(RouteSerializer):
     source = serializers.CharField(source="source.name", read_only=True)
-    destination = serializers.CharField(source="destination.name", read_only=True)
+    destination = serializers.CharField(
+        source="destination.name",
+        read_only=True
+    )
 
 
 class TripSerializer(serializers.ModelSerializer):
