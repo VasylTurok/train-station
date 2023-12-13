@@ -80,6 +80,7 @@ $ python manage.py createsuperuser
 ```
 
 ## Site 
+![image](https://github.com/VasylTurok/train-station/assets/127683195/48488a04-8c3f-45f2-98a6-4011ac2d12e7)
 ![image](https://github.com/VasylTurok/train-station/assets/127683195/371b91f0-9c7c-49a6-b96a-7b471e5395af)
 ![image](https://github.com/VasylTurok/train-station/assets/127683195/e571ef00-932d-4c71-a2ec-725b222758c7)
 ![image](https://github.com/VasylTurok/train-station/assets/127683195/7189ab61-a2cc-48e1-b39b-f986452b64cb)
