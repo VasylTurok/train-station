@@ -70,6 +70,7 @@ $ docker-compose up
 
 
 ## Model DB
+![image](https://github.com/VasylTurok/train-station/assets/127683195/80421bf4-c5dd-4098-a8c3-ca090781d2f3)
 
 
 >Create superuser with
@@ -79,6 +80,15 @@ $ python manage.py createsuperuser
 ```
 
 ## Site 
+![image](https://github.com/VasylTurok/train-station/assets/127683195/371b91f0-9c7c-49a6-b96a-7b471e5395af)
+![image](https://github.com/VasylTurok/train-station/assets/127683195/e571ef00-932d-4c71-a2ec-725b222758c7)
+![image](https://github.com/VasylTurok/train-station/assets/127683195/7189ab61-a2cc-48e1-b39b-f986452b64cb)
+![image](https://github.com/VasylTurok/train-station/assets/127683195/1fe06c80-1894-4b0e-91bd-4633397bfdb5)
+![image](https://github.com/VasylTurok/train-station/assets/127683195/de87086a-2150-4ac1-b92e-3643428caaee)
+![image](https://github.com/VasylTurok/train-station/assets/127683195/959fd573-b296-428f-8edb-5539a894648e)
+![image](https://github.com/VasylTurok/train-station/assets/127683195/ae0ccba7-d551-4f59-aaaf-2672fdda7278)
+![image](https://github.com/VasylTurok/train-station/assets/127683195/eee04bdb-d322-4aac-846a-07710fed8dcc)
+![image](https://github.com/VasylTurok/train-station/assets/127683195/84b0ea8b-4da7-4264-a4a7-255c9c1b6d49)
 
 
 ## Test
